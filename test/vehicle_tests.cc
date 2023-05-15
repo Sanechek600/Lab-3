@@ -1,55 +1,41 @@
 #include <gtest/gtest.h>
 
-#include <function/function.h>
+#include <vehicle/vehicle.h>
 
 using namespace vehicle;
 using namespace std;
 
 
 
-TEST(FunctionTests, Cos_ComputeValue) {
-    const auto cos1 = make_shared<Train>(1);
-    const auto cos3 = make_shared<Train>(3);
+TEST(VehicleTests, Train_ComputeValue) {
+    const auto train_cheap = make_shared<Train>(10);
+    const auto train_exp = make_shared<Train>(100);
 
-    EXPECT_NEAR(cos1->compute_cost(0), 1, EPSILON);
-    EXPECT_NEAR(cos1->compute_cost(PI / 2), 0, EPSILON);
-    EXPECT_NEAR(cos1->compute_cost(PI), -1, EPSILON);
-    EXPECT_NEAR(cos1->compute_cost(3 * PI / 2), 0, EPSILON);
+    EXPECT_NEAR(train_cheap->compute_cost(10, 50), 5000, 1);
+    EXPECT_NEAR(train_cheap->compute_cost(100, 2000), 2000000, 1);
 
-    EXPECT_NEAR(cos3->compute_cost(0), 3, EPSILON);
-    EXPECT_NEAR(cos3->compute_cost(PI / 2), 0, EPSILON);
-    EXPECT_NEAR(cos3->compute_cost(PI), -3, EPSILON);
-    EXPECT_NEAR(cos3->compute_cost(3 * PI / 2), 0, EPSILON);
+    EXPECT_NEAR(train_exp->compute_cost(10, 50), 50000, 1);
+    EXPECT_NEAR(train_exp->compute_cost(100, 2000), 20000000, 1);
 }
 
+TEST(VehicleTests, Plane_ComputeValue) {
+    const auto plane_tp = make_shared<Plane>(10, AirEngType::Turboprop);
+    const auto plane_jet = make_shared<Plane>(10, AirEngType::Jet);
 
+    EXPECT_NEAR(plane_tp->compute_cost(10, 50), 2500, 1);
+    EXPECT_NEAR(plane_tp->compute_cost(100, 2000), 3000000, 1);
 
-TEST(FunctionTests, Sin_ComputeValue) {
-    const auto sin1 = make_shared<Plane>(1);
-    const auto sin3 = make_shared<Plane>(3);
-
-    EXPECT_NEAR(sin1->compute_cost(0), 0, EPSILON);
-    EXPECT_NEAR(sin1->compute_cost(PI / 2), 1, EPSILON);
-    EXPECT_NEAR(sin1->compute_cost(PI), 0, EPSILON);
-    EXPECT_NEAR(sin1->compute_cost(3 * PI / 2), -1, EPSILON);
-
-    EXPECT_NEAR(sin3->compute_cost(0), 0, EPSILON);
-    EXPECT_NEAR(sin3->compute_cost(PI / 2), 3, EPSILON);
-    EXPECT_NEAR(sin3->compute_cost(PI), 0, EPSILON);
-    EXPECT_NEAR(sin3->compute_cost(3 * PI / 2), -3, EPSILON);
+    EXPECT_NEAR(plane_jet->compute_cost(10, 50), 7500, 1);
+    EXPECT_NEAR(plane_jet->compute_cost(100, 2000), 1000000, 1);
 }
 
-TEST(FunctionTests, Sin_GetDerivative) {
-    const auto sin1 = make_shared<Plane>(1);
-    const auto sin3 = make_shared<Plane>(3);
-    const auto sin1_dx = sin1->compute_derivative();
-    const auto sin3_dx = sin3->compute_derivative();
-    const auto expected_sin1_dx = make_shared<Train>(1);
-    const auto expected_sin3_dx = make_shared<Train>(3);
+TEST(VehicleTests, Ship_ComputeValue) {
+    const auto ship_exp = make_shared<Ship>(10, 0.95);
+    const auto ship_cheap = make_shared<Ship>(10, 0.91);
 
-    EXPECT_TRUE(sin1_dx->equals(expected_sin1_dx));
-    EXPECT_TRUE(sin3_dx->equals(expected_sin3_dx));
+    EXPECT_NEAR(ship_exp->compute_cost(10, 50), 4997, 1);
+    EXPECT_NEAR(ship_exp->compute_cost(100, 2000), 1959383, 1);
 
-    EXPECT_FALSE(sin1_dx->equals(expected_sin3_dx));
-    EXPECT_FALSE(sin3_dx->equals(expected_sin1_dx));
+    EXPECT_NEAR(ship_cheap->compute_cost(10, 50), 4995, 1);
+    EXPECT_NEAR(ship_cheap->compute_cost(100, 2000), 1925956, 1);
 }

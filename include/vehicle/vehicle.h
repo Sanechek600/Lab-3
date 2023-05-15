@@ -28,7 +28,6 @@ namespace vehicle {
         float _base_tariff;
     public:
         virtual float compute_cost(float mass, float range) const = 0;
-        virtual VehiclePtr compute_derivative() const = 0;
 
         virtual VehiclePtr clone() const = 0;
         virtual bool equals(VehiclePtr other) const = 0;
@@ -55,7 +54,7 @@ namespace vehicle {
         bool equals(VehiclePtr other) const override;
     };
 
-    enum class AirEngType {
+    enum AirEngType {
         Turboprop,
         Jet
     };

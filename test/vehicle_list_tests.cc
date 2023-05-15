@@ -1,40 +1,28 @@
 #include <gtest/gtest.h>
 
-#include <function/function.h>
+#include <vehicle/vehicle.h>
 
 using namespace vehicle;
 using namespace std;
 
 
 
-TEST(IndexOfFunctionWithMaxValue, NoResult) {
-    VehicleList functions;
+TEST(IndexOfMinCost, NoResult) {
+    VehicleList vehicles;
 
-    const auto index = index_of_min_cost(functions, 0);
+    const auto index = index_of_min_cost(vehicles, 0, 0);
 
     ASSERT_EQ(index, -1);
 }
 
-TEST(IndexOfFunctionWithMaxValue, ArgZero) {
-    VehicleList functions;
-    functions.add(make_shared<Train>(1));
-    functions.add(make_shared<Train>(2));
-    functions.add(make_shared<Train>(2));
-    functions.add(make_shared<Train>(1));
+TEST(IndexOfMinCost, Main) {
+    VehicleList vehicles;
+    vehicles.add(make_shared<Train>(10));
+    vehicles.add(make_shared<Plane>(10, AirEngType::Turboprop));
+    vehicles.add(make_shared<Plane>(10, AirEngType::Jet));
+    vehicles.add(make_shared<Ship>(10, 0.91));
 
-    const auto index = index_of_min_cost(functions, 0);
-
-    ASSERT_EQ(index, 1);
-}
-
-TEST(IndexOfFunctionWithMaxValue, ArgPi) {
-    VehicleList functions;
-    functions.add(make_shared<Train>(2));
-    functions.add(make_shared<Train>(1));
-    functions.add(make_shared<Train>(1));
-    functions.add(make_shared<Train>(2));
-
-    const auto index = index_of_min_cost(functions, PI);
+    const auto index = index_of_min_cost(vehicles, 10, 50);
 
     ASSERT_EQ(index, 1);
 }
