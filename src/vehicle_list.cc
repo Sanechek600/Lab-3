@@ -1,6 +1,7 @@
 #include <vehicle/vehicle.h>
 
 #include <stdexcept>
+#include <iostream>
 
 using namespace vehicle;
 using namespace std;
@@ -37,7 +38,12 @@ void VehicleList::swap(VehicleList& other) {
     std::swap(this->_vehicles, other._vehicles);
 }
 
-
+void VehicleList::print(ostream& out) {
+    for (int i = 0; i < size(); ++i) {
+        this->_vehicles.at(i).get()->print(out);
+        out << endl;
+    }
+}
 
 int vehicle::index_of_min_cost(const VehicleList& vehicles, const float mass, const float range) {
     int min_index = -1;

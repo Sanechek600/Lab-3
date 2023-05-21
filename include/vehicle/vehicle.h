@@ -2,6 +2,10 @@
 
 #include <memory>
 #include <vector>
+#include <cstring>
+#include <string.h>
+#include <string>
+#include <iostream>
 
 namespace vehicle {
 
@@ -25,9 +29,11 @@ namespace vehicle {
 
     class Vehicle {
     private:
+        string _name;
         float _base_tariff;
     public:
         virtual float compute_cost(float mass, float range) const = 0;
+        virtual void print(ostream& out);
 
         virtual VehiclePtr clone() const = 0;
         virtual bool equals(VehiclePtr other) const = 0;
@@ -35,7 +41,9 @@ namespace vehicle {
         virtual ~Vehicle() = default;
 
         float get_bt() const;
+        string get_name() const;
         void set_bt(float bt);
+        void set_name(string name);
     protected:
         Vehicle() = default;
         Vehicle(const Vehicle&) = default;
@@ -46,9 +54,10 @@ namespace vehicle {
 
     class Train : public Vehicle {
     public:
-        Train(float base_tariff);
+        Train(string name, float base_tariff);
 
         float compute_cost(float mass, float range) const override;
+        void print(ostream& out) override;
 
         VehiclePtr clone() const override;
         bool equals(VehiclePtr other) const override;
@@ -61,14 +70,14 @@ namespace vehicle {
 
     class Plane : public Vehicle {
     private:
-        AirEngType _eng_type;
-
+        int _eng_type;
     public:
-        Plane(float base_tariff, AirEngType eng_type);
+        Plane(string name, float base_tariff, int eng_type);
 
-        AirEngType get_et() const;
+        int get_et() const;
 
         float compute_cost(float mass, float range) const override;
+        void print(ostream& out) override;
 
         VehiclePtr clone() const override;
         bool equals(VehiclePtr other) const override;
@@ -79,13 +88,13 @@ namespace vehicle {
     class Ship : public Vehicle {
     private:
         float _range_mod;
-
     public:
-        Ship(float base_tariff, float eng_type);
+        Ship(string name, float base_tariff, float eng_type);
 
         float get_rm() const;
 
         float compute_cost(float mass, float range) const override;
+        void print(ostream& out) override;
 
         VehiclePtr clone() const override;
         bool equals(VehiclePtr other) const override;
@@ -95,7 +104,6 @@ namespace vehicle {
     class VehicleList {
     private:
         std::vector<VehiclePtr> _vehicles;
-
     public:
         VehicleList() = default;
 
@@ -110,6 +118,8 @@ namespace vehicle {
         void add(VehiclePtr f);
 
         void swap(VehicleList& other);
+
+        void print(ostream& out);
     };
 
 

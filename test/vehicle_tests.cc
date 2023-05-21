@@ -19,8 +19,8 @@ TEST(VehicleTests, Train_ComputeValue) {
 }
 
 TEST(VehicleTests, Plane_ComputeValue) {
-    const auto plane_tp = make_shared<Plane>(10, AirEngType::Turboprop);
-    const auto plane_jet = make_shared<Plane>(10, AirEngType::Jet);
+    const auto plane_tp = make_shared<Plane>(10, 0);
+    const auto plane_jet = make_shared<Plane>(10, 1);
 
     EXPECT_NEAR(plane_tp->compute_cost(10, 50), 2500, 1);
     EXPECT_NEAR(plane_tp->compute_cost(100, 2000), 3000000, 1);
