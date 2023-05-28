@@ -7,6 +7,8 @@
 #include <string>
 #include <iostream>
 
+using namespace std;
+
 namespace vehicle {
 
     const float PI = 3.141592f;

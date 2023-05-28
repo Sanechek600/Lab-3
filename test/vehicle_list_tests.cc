@@ -17,10 +17,10 @@ TEST(IndexOfMinCost, NoResult) {
 
 TEST(IndexOfMinCost, Main) {
     VehicleList vehicles;
-    vehicles.add(make_shared<Train>(10));
-    vehicles.add(make_shared<Plane>(10, 0));
-    vehicles.add(make_shared<Plane>(10, 1));
-    vehicles.add(make_shared<Ship>(10, 0.91));
+    vehicles.add(make_shared<Train>("Trian1", 10));
+    vehicles.add(make_shared<Plane>("Plain1", 10, 0));
+    vehicles.add(make_shared<Plane>("Plain2", 10, 1));
+    vehicles.add(make_shared<Ship>("Sheap1", 10, 0.91));
 
     const auto index = index_of_min_cost(vehicles, 10, 50);
 
