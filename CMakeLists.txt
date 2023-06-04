@@ -28,7 +28,7 @@ add_library(vehicle-v3 SHARED
     "include/vehicle/vehicle.h"
     "src/vehicle.cc"
     "src/vehicle_list.cc"
- "src/console.cpp")
+)
 target_include_directories(vehicle-v3 PUBLIC "include")
 
 # Объявляем тесты
@@ -41,3 +41,4 @@ target_link_libraries(vehicle-v3-tests vehicle-v3 GTest::gtest_main)
 add_executable(vehicle-v3-console
 "src/console.cpp"
 )
+target_link_libraries(vehicle-v3-console vehicle-v3)
