@@ -9,7 +9,7 @@
 
 using namespace std;
 
-namespace vehicle {
+
 
     const float PI = 3.141592f;
 
@@ -35,7 +35,7 @@ namespace vehicle {
         float _base_tariff;
     public:
         virtual float compute_cost(float mass, float range) const = 0;
-        virtual void print(ostream& out);
+        virtual void print(ostream& out) = 0;
 
         virtual VehiclePtr clone() const = 0;
         virtual bool equals(VehiclePtr other) const = 0;
@@ -56,10 +56,15 @@ namespace vehicle {
 
     class Train : public Vehicle {
     public:
+        Train() {
+            set_name("stdtrain");
+            set_bt(0);
+        }
         Train(string name, float base_tariff);
 
         float compute_cost(float mass, float range) const override;
         void print(ostream& out) override;
+        friend istream& operator>>(istream& in, shared_ptr<Train> item);
 
         VehiclePtr clone() const override;
         bool equals(VehiclePtr other) const override;
@@ -74,12 +79,19 @@ namespace vehicle {
     private:
         int _eng_type;
     public:
+        Plane() {
+            set_name("stdplane");
+            set_bt(0);
+            _eng_type = 0;
+        }
         Plane(string name, float base_tariff, int eng_type);
 
         int get_et() const;
+        void set_et(int et);
 
         float compute_cost(float mass, float range) const override;
         void print(ostream& out) override;
+        friend istream& operator>>(istream& in, shared_ptr<Plane> item);
 
         VehiclePtr clone() const override;
         bool equals(VehiclePtr other) const override;
@@ -91,12 +103,19 @@ namespace vehicle {
     private:
         float _range_mod;
     public:
-        Ship(string name, float base_tariff, float eng_type);
+        Ship() {
+            set_name("stdship");
+            set_bt(0);
+            _range_mod = 1.0;
+        }
+        Ship(string name, float base_tariff, float range_mod);
 
         float get_rm() const;
+        void set_rm(float range_mod);
 
         float compute_cost(float mass, float range) const override;
         void print(ostream& out) override;
+        friend istream& operator>>(istream& in, shared_ptr<Ship> item);
 
         VehiclePtr clone() const override;
         bool equals(VehiclePtr other) const override;
@@ -117,7 +136,9 @@ namespace vehicle {
 
         VehiclePtr operator[](int index) const;
 
-        void add(VehiclePtr f);
+        void add(VehiclePtr v);
+        void insert(VehiclePtr v, int index);
+        void remove(int index);
 
         void swap(VehicleList& other);
 
@@ -125,6 +146,5 @@ namespace vehicle {
     };
 
 
-
     int index_of_min_cost(const VehicleList& vehicles, float mass, float range);
-}
+
